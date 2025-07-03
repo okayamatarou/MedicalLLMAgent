@@ -9,7 +9,7 @@ interface HeaderProps {
   onTabChange: (tab: 'chat' | 'config' | 'sessions') => void
 }
 
-export function Header({ config, onConfigUpdate, activeTab, onTabChange }: HeaderProps) {
+export function Header({ config, activeTab, onTabChange }: HeaderProps) {
   const currentModel = config?.config?.model?.name || 'Unknown'
   const currentPrompt = config?.config?.prompt?.name || 'Unknown'
 

@@ -14,7 +14,7 @@ interface SidebarProps {
   onCreateSession: (userId: string, promptConfig: string, modelConfig: string) => Promise<string | null>
 }
 
-export function Sidebar({ config, currentSession, onSessionSelect, onCreateSession }: SidebarProps) {
+export function Sidebar({ config, currentSession, onCreateSession }: SidebarProps) {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [newSessionData, setNewSessionData] = useState({
     userId: '',

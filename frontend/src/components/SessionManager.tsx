@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Plus, Clock, User, Trash2, Eye } from 'lucide-react'
+import { User, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useToast } from '@/hooks/use-toast'
 
 interface Session {
@@ -24,7 +24,7 @@ interface SessionManagerProps {
   onCreateSession: (userId: string, promptConfig: string, modelConfig: string) => Promise<string | null>
 }
 
-export function SessionManager({ apiUrl, onSessionSelect, onCreateSession }: SessionManagerProps) {
+export function SessionManager({ apiUrl, onSessionSelect }: SessionManagerProps) {
   const [sessions, setSessions] = useState<Session[]>([])
   const [searchUserId, setSearchUserId] = useState('')
   const [isLoading, setIsLoading] = useState(false)
