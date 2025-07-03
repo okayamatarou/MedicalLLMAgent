@@ -1,0 +1,35 @@
+ui:
+  name: "instructor"
+  description: "教官向けUI設定"
+  
+  layout:
+    sidebar_width: 350
+    chat_height: 500
+    show_model_selector: true
+    show_prompt_selector: true
+    show_evaluation_panel: true
+    show_admin_panel: true
+    
+  theme:
+    primary_color: "#059669"
+    secondary_color: "#64748b"
+    background_color: "#f8fafc"
+    text_color: "#1e293b"
+    
+  features:
+    auto_save: true
+    export_conversation: true
+    real_time_evaluation: true
+    session_recording: true
+    student_monitoring: true
+    performance_analytics: true
+    
+  language:
+    default: "ja"
+    available: ["ja", "en"]
+    
+  permissions:
+    can_edit_prompts: true
+    can_manage_models: true
+    can_view_all_sessions: true
+    can_export_data: true

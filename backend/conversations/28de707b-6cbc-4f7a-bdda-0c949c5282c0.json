@@ -1,0 +1,18 @@
+{
+  "session_id": "28de707b-6cbc-4f7a-bdda-0c949c5282c0",
+  "user_id": "test-student-001",
+  "prompt_config": "default_patient",
+  "model_config": "llama2",
+  "created_at": "2025-07-03T12:26:51.765163",
+  "last_activity": "2025-07-03T12:26:51.766097",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a helpful assistant for genetic counseling education.",
+      "timestamp": "2025-07-03T12:26:51.766090",
+      "metadata": {}
+    }
+  ],
+  "status": "active",
+  "evaluation_scores": []
+}

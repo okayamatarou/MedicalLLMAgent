@@ -1,0 +1,26 @@
+ui:
+  name: "standard"
+  description: "標準UI設定"
+  
+  layout:
+    sidebar_width: 300
+    chat_height: 600
+    show_model_selector: true
+    show_prompt_selector: true
+    show_evaluation_panel: true
+    
+  theme:
+    primary_color: "#2563eb"
+    secondary_color: "#64748b"
+    background_color: "#f8fafc"
+    text_color: "#1e293b"
+    
+  features:
+    auto_save: true
+    export_conversation: true
+    real_time_evaluation: true
+    session_recording: false
+    
+  language:
+    default: "ja"
+    available: ["ja", "en"]

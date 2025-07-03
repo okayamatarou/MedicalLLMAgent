@@ -1,0 +1,15 @@
+model:
+  name: "claude"
+  type: "anthropic"
+  model_id: "claude-3-sonnet-20240229"
+  temperature: 0.7
+  max_tokens: 2048
+  top_p: 0.9
+  
+  anthropic:
+    api_key: "${oc.env:ANTHROPIC_API_KEY}"
+    timeout: 60
+    
+  settings:
+    context_length: 200000
+    batch_size: 1

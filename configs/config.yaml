@@ -1,0 +1,20 @@
+defaults:
+  - model: llama2
+  - prompt: default_patient
+  - ui: standard
+  - _self_
+
+app:
+  name: "遺伝カウンセリング教育システム"
+  version: "1.0.0"
+  debug: true
+
+server:
+  host: "localhost"
+  port: 8000
+  cors_origins: ["http://localhost:3000", "http://localhost:5173"]
+
+session:
+  max_duration: 3600  # 1時間
+  save_conversations: true
+  conversation_dir: "./conversations"
