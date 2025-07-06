@@ -8,6 +8,7 @@ import logging
 from .config import config_manager
 from .services.llm_service import llm_service
 from .services.session_service import session_service
+from .utils.emotion_parser import parse_emotion_status, get_default_emotion_status
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -222,9 +223,15 @@ async def chat(request: ChatRequest):
         else:
             response = await llm_service.generate_response(llm_messages, stream=False)
             
-            session_service.add_message(request.session_id, "assistant", response)
+            cleaned_response, emotion_status = parse_emotion_status(response)
             
-            return {"response": response}
+            metadata = {"emotion_status": emotion_status} if emotion_status else {}
+            session_service.add_message(request.session_id, "assistant", cleaned_response, metadata)
+            
+            return {
+                "response": cleaned_response,
+                "emotion_status": emotion_status
+            }
             
     except Exception as e:
         logger.error(f"Chat error: {e}")
@@ -268,11 +275,15 @@ async def websocket_endpoint(websocket: WebSocket, session_id: str):
                         "content": chunk
                     }))
                 
-                session_service.add_message(session_id, "assistant", response_content)
+                cleaned_response, emotion_status = parse_emotion_status(response_content)
+                
+                metadata = {"emotion_status": emotion_status} if emotion_status else {}
+                session_service.add_message(session_id, "assistant", cleaned_response, metadata)
                 
                 await websocket.send_text(json.dumps({
                     "type": "complete",
-                    "full_response": response_content
+                    "full_response": cleaned_response,
+                    "emotion_status": emotion_status
                 }))
                 
     except WebSocketDisconnect:

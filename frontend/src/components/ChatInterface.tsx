@@ -10,6 +10,19 @@ interface Message {
   role: string
   content: string
   timestamp: string
+  metadata?: {
+    emotion_status?: {
+      understanding: number
+      anxiety: number
+      satisfaction: number
+    }
+  }
+}
+
+interface EmotionStatus {
+  understanding: number
+  anxiety: number
+  satisfaction: number
 }
 
 interface ChatInterfaceProps {
@@ -22,6 +35,11 @@ export function ChatInterface({ sessionId, apiUrl }: ChatInterfaceProps) {
   const [inputMessage, setInputMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
+  const [currentEmotionStatus, setCurrentEmotionStatus] = useState<EmotionStatus>({
+    understanding: 2,
+    anxiety: 5,
+    satisfaction: 0
+  })
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
 
@@ -87,9 +105,14 @@ export function ChatInterface({ sessionId, apiUrl }: ChatInterfaceProps) {
         const assistantMessage: Message = {
           role: 'assistant',
           content: data.response,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          metadata: data.emotion_status ? { emotion_status: data.emotion_status } : undefined
         }
         setMessages(prev => [...prev, assistantMessage])
+        
+        if (data.emotion_status) {
+          setCurrentEmotionStatus(data.emotion_status)
+        }
       } else {
         toast({
           title: "メッセージ送信エラー",
@@ -132,6 +155,26 @@ export function ChatInterface({ sessionId, apiUrl }: ChatInterfaceProps) {
     )
   }
 
+  const EmotionStatusDisplay = () => (
+    <div className="bg-gray-50 p-3 rounded-lg border">
+      <h4 className="text-sm font-medium text-gray-700 mb-2">患者の感情ステータス</h4>
+      <div className="grid grid-cols-3 gap-3 text-sm">
+        <div className="text-center">
+          <div className="text-blue-600 font-semibold">{currentEmotionStatus.understanding}/10</div>
+          <div className="text-gray-600">理解度</div>
+        </div>
+        <div className="text-center">
+          <div className="text-red-600 font-semibold">{currentEmotionStatus.anxiety}/10</div>
+          <div className="text-gray-600">不安</div>
+        </div>
+        <div className="text-center">
+          <div className="text-green-600 font-semibold">{currentEmotionStatus.satisfaction}/10</div>
+          <div className="text-gray-600">満足度</div>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <Card className="h-[calc(100vh-12rem)]">
       <CardHeader className="pb-4">
@@ -144,6 +187,7 @@ export function ChatInterface({ sessionId, apiUrl }: ChatInterfaceProps) {
             </span>
           </div>
         </CardTitle>
+        {sessionId && <EmotionStatusDisplay />}
       </CardHeader>
       
       <CardContent className="flex flex-col h-full">
